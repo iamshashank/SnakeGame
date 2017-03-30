@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/noob"
+        android:orderInCategory="100"
+        android:title="Noob"/>
+    <item android:id="@+id/pro"
+        android:orderInCategory="102"
+        android:title="Competitive"/>
+    <item android:id="@+id/alien"
+        android:orderInCategory="103"
+        android:title="Drunk"/>
+
+
+
+</menu>

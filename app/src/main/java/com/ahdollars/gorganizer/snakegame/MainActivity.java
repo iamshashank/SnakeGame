@@ -6,7 +6,9 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -21,7 +23,7 @@ import static com.ahdollars.gorganizer.snakegame.R.id.game;
 public class MainActivity extends AppCompatActivity implements Runnable,View.OnClickListener{
 
     SurfaceView gameView;
-    ImageButton up,down,left,right;
+    ImageButton up,down,left,right,optionsMenu;
     ImageView pauseButton;
     TextView scoreBoard;
     SurfaceHolder holder;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements Runnable,View.OnC
     Handler handler;
     Paint p,f;
     int TAIL;
+    int THREAD_SPEEED=35;
+    int MODE=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,53 @@ public class MainActivity extends AppCompatActivity implements Runnable,View.OnC
         down=(ImageButton)findViewById(R.id.down);
         right=(ImageButton)findViewById(R.id.right);
         left=(ImageButton)findViewById(R.id.left);
+        optionsMenu=(ImageButton)findViewById(R.id.overFlow);
+        optionsMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup=new PopupMenu(v.getContext(),v);
+                MenuInflater inflater=popup.getMenuInflater();
+                inflater.inflate(R.menu.mymenu,popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId()==R.id.noob){
+                            THREAD_SPEEED=35;
+                            if (MODE==1){
+
+                            }else {
+                                score=0;
+                            }
+                            MODE=1;
+
+                        }else if(R.id.pro==item.getItemId()){
+
+                            THREAD_SPEEED=25;
+                            if (MODE==2){
+
+                            }else {
+                                score=0;
+                            }
+                            MODE=2;
+
+                        }else if(R.id.alien==item.getItemId()){
+
+                            THREAD_SPEEED=15;
+                            if (MODE==3){
+
+                            }else {
+                                score=0;
+                            }
+                            MODE=3;
+
+                        }
+                        scoreBoard.setText(score+"");
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
         pauseButton=(ImageView)findViewById(R.id.icon_pause);
         p=new Paint();
         f=new Paint();
@@ -126,14 +177,14 @@ public class MainActivity extends AppCompatActivity implements Runnable,View.OnC
 
             Canvas canvas=holder.lockCanvas();
 
-            Log.d(TAG, "run: ");
+         //   Log.d(TAG, "run: ");
             render(canvas);
             update();
 
             holder.unlockCanvasAndPost(canvas);
 
             try {
-                Thread.sleep(20);
+                Thread.sleep(THREAD_SPEEED);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -264,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements Runnable,View.OnC
         //checkSnakeDied();
 
         for (int i = TAIL-1; i>0; i--) {
-            Log.d(TAG, "snake[" +i+"] = "+snake[i]);
+          //  Log.d(TAG, "snake[" +i+"] = "+snake[i]);
             snake[i] = snake[i-1];
         }
 
